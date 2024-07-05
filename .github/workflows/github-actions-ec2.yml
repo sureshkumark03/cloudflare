@@ -22,7 +22,7 @@ jobs:
           args: >
               -Dsonar.organization=sureshkumark03
               -Dsonar.projectKey=sureshkumark03
-             
+              -Dsonar.python.coverage.reportPaths=coverage.xml
 
   deploy:
     name: Deploy to EC2 on master branch push
