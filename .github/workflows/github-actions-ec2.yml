@@ -8,7 +8,25 @@ on:
       - cloudflare
 
 jobs:
+  DemoSonarCloudSCan:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+          with:
+              fetch-depth: 0
+        - name: SonarCloud Scan
+          uses: sonarsource/sonarcloud-github-action@master
+          env:
+              ITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              projectBaseDir: sureshkumark03/cloudflare
+          with:
+            args: >
+                -Dsonar.organization=sureshkumark03
+                -Dsonar.projectKey=sureshkumark03_cloudflare
   deploy:
+    needs: 
+      - DemoSonarCloudSCan
     name: Deploy to EC2 on master branch push
     runs-on: ubuntu-latest
     steps:
