@@ -19,10 +19,7 @@ jobs:
         env:
             ITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectBaseDir: sureshkumark03/cloudflare
-          args: >
-              -Dsonar.organization=sureshkumark03
+        
             
 
             
