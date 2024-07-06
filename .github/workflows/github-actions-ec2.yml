@@ -23,7 +23,7 @@ jobs:
         with:
           args: >
               -Dsonar.organization=sureshkumark03
-              -Dsonar.projectKey=sureshkumark03 
+              -Dsonar.projectKey=sureshkumark03_cloudflare
             
 
             
