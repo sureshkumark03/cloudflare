@@ -1,6 +1,7 @@
 name: cloudflare
 
 # Trigger deployment only on push to main branch
+
 on:
   push:
     branches:
