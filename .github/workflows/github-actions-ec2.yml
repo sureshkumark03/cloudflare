@@ -8,22 +8,34 @@ on:
       - cloudflare
 
 jobs:
-  DemoSonarCloudSCan:
+  deploy:
+    name: Deploy to EC2 on master branch push
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-            fetch-depth: 0
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
+      - name: Checkout the files
+        uses: actions/checkout@v2
+
+      - name: Deploy to Server 1
+        uses: easingthemes/ssh-deploy@main
         env:
-            ITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            projectBaseDir: sureshkumark03/cloudflare
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.TARGET_DIR }}
+
+      - name: Executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
         with:
-          args: >
-              -Dsonar.organization=sureshkumark03
-              -Dsonar.projectKey=sureshkumark03_cloudflare
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo apt-get -y update
+            sudo apt-get install -y apache2
+            sudo systemctl start apache2
+            sudo systemctl enable apache2
+            cd home
+            sudo mv * /var/www/html
             
 
             
